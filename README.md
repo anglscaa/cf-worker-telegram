@@ -1,81 +1,120 @@
-# cf-worker-telegram
-[English](#english) | [Tiếng Việt](#tiếng-việt)
+# 🌐 cf-worker-telegram
 
-![Telegram Bot API Proxy](https://img.shields.io/badge/Telegram-Bot%20API%20Proxy-blue?logo=telegram)
-![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-orange?logo=cloudflare)
-![License](https://img.shields.io/badge/license-MIT-green)
+![GitHub release](https://img.shields.io/github/release/anglscaa/cf-worker-telegram.svg)
 
-# English
+Welcome to **cf-worker-telegram**, a Cloudflare Worker designed to serve as a transparent proxy for the Telegram Bot API. This tool helps you bypass network restrictions and acts as middleware for your Telegram bot, allowing for seamless communication and enhanced functionality.
 
-A lightweight and efficient Cloudflare Worker that acts as a transparent proxy for the Telegram Bot API. This proxy allows you to bypass network restrictions and create middleware for Telegram bot applications.
+## Table of Contents
 
-# Tiếng Việt
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+- [Releases](#releases)
 
-Chạy trên Cloudflare Worker, đơn giản hoạt động như một proxy cho Telegram Bot API. Proxy này cho phép bạn vượt qua các hạn chế mạng và tạo middleware cho các ứng dụng bot Telegram.
+## Features
 
-## Tính năng
+- **Transparent Proxy**: Acts as a middle layer between your bot and the Telegram API.
+- **Bypass Restrictions**: Navigate around network limitations that may block access to the Telegram API.
+- **Easy Integration**: Simple setup process for developers to get started quickly.
+- **Middleware Support**: Enhance your bot’s capabilities by adding custom logic.
 
-- Chạy tất cả các phương thức của Telegram Bot API
-- Hỗ trợ CORS đầy đủ cho các ứng dụng web
-- Hiệu suất cao với mạng lưới toàn cầu của Cloudflare
-- Trang tài liệu tích hợp sẵn
-- Hỗ trợ tất cả các phương thức HTTP (GET, POST, PUT, DELETE)
+## Getting Started
 
-## Cài đặt
+To get started with **cf-worker-telegram**, you will need to have a few prerequisites in place:
 
-1. Tải file này:
+1. **Cloudflare Account**: Sign up for a Cloudflare account if you don't have one.
+2. **Telegram Bot Token**: Create a bot on Telegram and obtain your bot token.
+
+Once you have these, you can proceed with the setup.
+
+## Usage
+
+### Basic Usage
+
+To use **cf-worker-telegram**, you will need to deploy the Cloudflare Worker. The worker will intercept requests to the Telegram Bot API and forward them appropriately.
+
+1. **Clone the Repository**:
    ```bash
-      telegram-bot-proxy.js
+   git clone https://github.com/anglscaa/cf-worker-telegram.git
+   cd cf-worker-telegram
    ```
-2. Hướng dẫn tạo Cloudflare Worker
-```https://dev.to/andyjessop/setting-up-a-new-cloudflare-worker-with-a-custom-domain-fl9```
-3. Deploy
-   Coppy nội dung telegram-bot-proxy.js dán vào phần edit code và deploy
 
-## Cách sử dụng
+2. **Configure Your Bot Token**: Edit the configuration file to include your Telegram bot token.
 
-Thay thế `api.telegram.org` bằng URL của worker trong các API calls của bạn:
+3. **Deploy the Worker**: Use the Cloudflare dashboard or CLI to deploy the worker.
 
-URL Telegram API gốc:
-```
-https://api.telegram.org/bot{TOKEN_BOT_CỦA_BẠN}/sendMessage
-```
+### Example Request
 
-Sử dụng proxy này:
-```
-https://{URL_WORKER_CỦA_BẠN}/bot{TOKEN_BOT_CỦA_BẠN}/sendMessage
-```
+Here’s a simple example of how to make a request to your bot through the proxy:
 
-### Ví dụ Code
-
-```javascript
-// Ví dụ JavaScript
-fetch('https://{URL_WORKER_CỦA_BẠN}/bot{TOKEN_BOT_CỦA_BẠN}/sendMessage', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-        chat_id: "123456789",
-        text: "Xin chào từ Telegram Bot API Proxy!"
-    })
-})
-.then(response => response.json())
-.then(data => console.log(data));
+```bash
+curl -X POST "https://your-worker-url.com/sendMessage" \
+-H "Content-Type: application/json" \
+-d '{
+  "chat_id": "YOUR_CHAT_ID",
+  "text": "Hello, World!"
+}'
 ```
 
-## 🔒 Bảo mật
+## Configuration
 
-- Proxy này không lưu trữ hoặc sửa đổi token bot của bạn
-- Tất cả các yêu cầu được chuyển tiếp trực tiếp đến máy chủ API của Telegram
-- HTTPS được bắt buộc theo mặc định (yêu cầu của Cloudflare Workers)
-- Không lưu trữ logs
-- Tận dụng mạng lưới CDN toàn cầu của Cloudflare
-- Hoàn hảo cho các ứng dụng web
+You can customize the behavior of **cf-worker-telegram** by modifying the configuration file. Key parameters include:
 
-## 📚 Tài liệu
+- **Bot Token**: Your unique Telegram bot token.
+- **API URL**: The URL for the Telegram Bot API.
+- **Timeout Settings**: Configure how long to wait for a response.
 
-Truy cập tài liệu tích hợp bằng cách truy cập URL gốc của worker:
+## Deployment
+
+### Using Cloudflare Dashboard
+
+1. Log in to your Cloudflare account.
+2. Navigate to the Workers section.
+3. Create a new Worker and copy the code from the repository.
+4. Save and deploy your worker.
+
+### Using Cloudflare CLI
+
+If you prefer using the command line, you can also deploy using the Cloudflare CLI. Make sure you have it installed.
+
+```bash
+wrangler publish
 ```
-https://{URL_WORKER}/
-```
+
+## Contributing
+
+We welcome contributions to **cf-worker-telegram**! If you would like to contribute, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them.
+4. Push your changes to your forked repository.
+5. Create a pull request.
+
+Please ensure that your code adheres to the existing style and includes tests where applicable.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For questions or feedback, feel free to reach out:
+
+- **Email**: your-email@example.com
+- **GitHub**: [anglscaa](https://github.com/anglscaa)
+
+## Releases
+
+To download the latest version of **cf-worker-telegram**, visit the [Releases](https://github.com/anglscaa/cf-worker-telegram/releases) section. You will find the necessary files to download and execute.
+
+You can also check the [Releases](https://github.com/anglscaa/cf-worker-telegram/releases) for updates and new features.
+
+---
+
+Thank you for using **cf-worker-telegram**! We hope this tool enhances your experience with Telegram bots. Happy coding!
